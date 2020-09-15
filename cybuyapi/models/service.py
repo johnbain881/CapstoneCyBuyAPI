@@ -11,7 +11,4 @@ class Service(models.Model):
         verbose_name = ("Service")
         verbose_name_plural = ("Services")
 
-    def __str__(self):
-        return self.name
-
 

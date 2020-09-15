@@ -11,7 +11,5 @@ class Request(models.Model):
         verbose_name = ("Request")
         verbose_name_plural = ("Requests")
 
-    def __str__(self):
-        return self.name
 
 

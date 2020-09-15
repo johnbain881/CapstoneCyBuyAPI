@@ -16,10 +16,11 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
-from cybuyapi.views import Users, login_user
+from cybuyapi.views import Users, login_user, Services
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'user', Users, 'user')
+router.register(r'service', Services, 'service')
 
 urlpatterns = [
     path('', include(router.urls)),

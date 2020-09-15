@@ -14,7 +14,4 @@ class Message(models.Model):
         verbose_name = ("Message")
         verbose_name_plural = ("Messages")
 
-    def __str__(self):
-        return self.name
-
 

@@ -11,7 +11,5 @@ class RequestPhoto(models.Model):
         verbose_name = ("RequestPhoto")
         verbose_name_plural = ("RequestPhotos")
 
-    def __str__(self):
-        return self.name
 
 

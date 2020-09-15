@@ -11,5 +11,3 @@ class Conversation(models.Model):
         verbose_name = ("Conversation")
         verbose_name_plural = ("Conversations")
 
-    def __str__(self):
-        return self.name

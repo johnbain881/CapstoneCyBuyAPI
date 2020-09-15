@@ -29,18 +29,21 @@ class Users(ViewSet):
     def create(self, request):
         """Handle POST requests"""
 
-        user = User.objects.create_user(
-            first_name=request.data["first_name"],
-            last_name=request.data["last_name"],
-            username=request.data["username"],
-            password=request.data["password"],
-            email=request.data["email"]
-        )
+        try:
+            user = User.objects.create_user(
+                first_name=request.data["first_name"],
+                last_name=request.data["last_name"],
+                username=request.data["username"],
+                password=request.data["password"],
+                email=request.data["email"]
+            )
 
-        token = Token.objects.create(user=user)
+            token = Token.objects.create(user=user)
 
-        data = json.dumps({"token": token.key})
-        return HttpResponse(data, content_type='application/json')
+            data = json.dumps({"token": token.key})
+            return HttpResponse(data, content_type='application/json')
+        except Exception as ex:
+            return HttpResponseServerError(ex)
 
     def retrieve(self, request, pk=None):
         """Handle GET requests"""
