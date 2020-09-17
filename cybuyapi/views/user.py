@@ -25,7 +25,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class Users(ViewSet):
-
+    @csrf_exempt
     def create(self, request):
         """Handle POST requests"""
 
@@ -76,6 +76,6 @@ class Users(ViewSet):
 
     def list(self, request):
         """Handle GET requests"""
-        user = User.objects.all()
-        serializer = UserSerializer(user, many=True, context={'request' : request})
+        user = request.auth.user
+        serializer = UserSerializer(user, context={'request' : request})
         return Response(serializer.data)

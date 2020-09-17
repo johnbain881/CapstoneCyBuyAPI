@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
-from cybuyapi.views import Users, login_user, Services
+from cybuyapi.views import Users, login_user, Services, register_user
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'user', Users, 'user')
@@ -25,6 +25,7 @@ router.register(r'service', Services, 'service')
 urlpatterns = [
     path('', include(router.urls)),
     path('login/', login_user),
+    path('register/', register_user),
     path('api-token-auth/', obtain_auth_token),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

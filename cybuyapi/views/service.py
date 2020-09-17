@@ -55,16 +55,28 @@ class Services(ViewSet):
         """Handle GET requests"""
 
         service = Service.objects.get(pk=pk)
-        
+
         serializer = ServiceSerializer(service, context={'request': request})
         return Response(serializer.data)
 
 
     def update(self, request, pk=None):
         """Handle PUT requests"""
+        service = Service.objects.get(pk=pk)
+        service.body = request.data["body"]
+        service.title = request.data["title"]
+        service.save()
 
+        photos = ServicePhoto.objects.filter(service=service).delete()
+        for photo in request.data["photos"]:
+            if photo != "":
+                ServicePhoto.objects.create(
+                    service = service,
+                    photo_url = photo,
+                )
         
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        serializer = ServiceSerializer(service, context={'request': request})
+        return Response(serializer.data)
 
     def destroy(self, request, pk=None):
         """Handle DELETE requests"""
