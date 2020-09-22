@@ -89,6 +89,7 @@ class Services(ViewSet):
 
     def list(self, request):
         """Handle GET requests"""
-        service = Service.objects.all().order_by('-id')
+        search = self.request.query_params.get('search', None)
+        service = Service.objects.filter(title__contains=search).order_by('-id')
         serializer = ServiceSerializer(service, many=True, context={'request' : request})
         return Response(serializer.data)
