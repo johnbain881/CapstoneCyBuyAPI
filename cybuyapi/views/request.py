@@ -90,16 +90,8 @@ class Requests(ViewSet):
 
     def list(self, request):
         """Handle GET requests"""
-        # Entry.objects.filter(headline__contains='Lennon')
-        # customer = self.request.query_params.get('customer', None)
-        # if customer is not None:
-        #     payment_types = payment_types.filter(customer__id=customer)
         search = self.request.query_params.get('search', None)
         user_request = Request.objects.filter(title__contains=search).order_by('-id')
-        # if search is not None:
-        #     user_request.filter(title__contains=search).order_by('-id')
-        #     print("we made it")
-        #     print(search)
 
         serializer = RequestSerializer(user_request, many=True, context={'request' : request})
         return Response(serializer.data)

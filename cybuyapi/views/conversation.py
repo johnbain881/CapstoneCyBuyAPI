@@ -35,7 +35,6 @@ class Conversations(ViewSet):
 
     def create(self, request):
         """Handle POST requests"""
-        print("userId", request.data["userId"])
         user = User.objects.get(pk=request.data["userId"])
 
         conversations = Conversation.objects.filter(user=request.user, other_user=user)
