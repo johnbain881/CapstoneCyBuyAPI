@@ -26,7 +26,7 @@ class RequestSerializer(serializers.HyperlinkedModelSerializer):
             view_name='request',
             lookup_field='id'
         )
-        fields = ('id', 'user', 'title', 'body', 'photos')
+        fields = ('id', 'user', 'title', 'body', 'photos', 'is_completed')
         depth = 2
 
 
@@ -65,6 +65,7 @@ class Requests(ViewSet):
         user_request = Request.objects.get(pk=pk)
         user_request.body = request.data["body"]
         user_request.title = request.data["title"]
+        user_request.is_completed = request.data["is_completed"]
         user_request.save()
 
         photos = RequestPhoto.objects.filter(request=user_request).delete()
@@ -89,6 +90,16 @@ class Requests(ViewSet):
 
     def list(self, request):
         """Handle GET requests"""
-        user_request = Request.objects.all().order_by('-id')
+        # Entry.objects.filter(headline__contains='Lennon')
+        # customer = self.request.query_params.get('customer', None)
+        # if customer is not None:
+        #     payment_types = payment_types.filter(customer__id=customer)
+        search = self.request.query_params.get('search', None)
+        user_request = Request.objects.filter(title__contains=search).order_by('-id')
+        # if search is not None:
+        #     user_request.filter(title__contains=search).order_by('-id')
+        #     print("we made it")
+        #     print(search)
+
         serializer = RequestSerializer(user_request, many=True, context={'request' : request})
         return Response(serializer.data)
